@@ -43,14 +43,18 @@ my $false = 0;
 sub about_true {
     # about_true() -- true is any value except 0 and undef
     my @foo = (1,2,3);
-    
-    ok ('', 'a positive integer is true');
-    ok ('', 'a negative integer is true');
-    ok ('', 'an array in scalar context is true'); # see about_context.pl for more information
-    
+
+    # -> create scalar variable with array
+    my $scal = @foo;
+
+    ok ($foo[2], 'a positive integer is true');
+    ok (-$foo[2], 'a negative integer is true');
+    ok ($scal, 'an array in scalar context is true'); # see about_context.pl for more information
+   
+    #  -> change values to anything else or negate as shown
     if ($true) {
-        ok (0, '0 is not true');
-        ok (undef, 'undef is not true');
+        ok (!0, '0 is not true');
+        ok (!undef, 'undef is not true');
     }
     
     return (Perl::Koans::get_return_code()); 
@@ -59,10 +63,10 @@ sub about_true {
 sub about_false {
     # about_false() -- false is 0 and undef
     
-    if (__) {
+    if ($false) {
         fail('don\'t go here'); # or "don't go here"
     } else {
-        ok (! __, 'undef and 0 are both false');
+        ok (! $false, 'undef and 0 are both false');
     }
         
     return (Perl::Koans::get_return_code()); 

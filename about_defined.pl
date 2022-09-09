@@ -41,22 +41,27 @@ sub about_defined {
     # about_defined() -- defined is any value except undef
     my @foo = (1, -2 , 0);
     
-    is (defined $foo[0], 0, 'a positive integer is defined');
-    is (defined $foo[1], 0, 'a negative integer is defined');
-    is (defined $foo[2], 0, 'even 0 is defined');
+    # -> define true variable for better readability
+    my $true  = 1;
+
+    is (defined $foo[0], $true, 'a positive integer is defined');
+    is (defined $foo[1], $true, 'a negative integer is defined');
+    is (defined $foo[2], $true, 'even 0 is defined');
     
     my $str;
     
-    is (defined $str, __, 'declared variables initialize to undef');
+    is (defined $str, '', 'declared variables initialize to undef');
     
     my @bar;
     
-    is (@bar,  __, 'declared variables initialize to undef -- part 2');
-    is (defined $#bar, __, 'declared variables initialize to undef -- part 3');
+    # -> had to remove testname for 'is' check to work, 
+    # otherwise '@bar' was completely ignored 
+    is (@bar, undef);
+    is (defined $#bar, $true, 'declared variables initialize to undef -- part 3');
     
     @bar = (27, 42, undef);
-    is (defined $bar[__],   __, '27 and 42 are defined');
-    is (! defined $bar[__], __, 'undef is not defined');
+    is (defined $bar[1], $true, '27 and 42 are defined');
+    is (! defined $bar[2], $true, 'undef is not defined');
     
     return (Perl::Koans::get_return_code()); 
 }
@@ -67,9 +72,9 @@ sub about_undef {
     
     # for many intents and purposes, Perl defines true as '1' and false as '' .
     # functions like 'defined' and 'exists' use this concept of truthiness
-    is (defined __, '', 'undef is not defined'); 
+    is (defined undef, '', 'undef is not defined'); 
     
-    is (defined $foo, __, 'declared variables that have not been assigned are undef');
+    is (defined $foo, '', 'declared variables that have not been assigned are undef');
     
     return (Perl::Koans::get_return_code()); 
 }
@@ -83,11 +88,11 @@ sub about_exists {
     
     $hash{fizz} = 'bang';
     
-    is (exists $hash{key}, 1, 'an empty string is returned when the key doesn\'t exist');
+    is (exists $hash{key}, '', 'an empty string is returned when the key doesn\'t exist');
     
     $hash{key} = 'board';
     
-    is (exists $hash{key}, '', '1 is returned when the key exists');
+    is (exists $hash{key}, 1, '1 is returned when the key exists');
     
     return (Perl::Koans::get_return_code());
 }
